@@ -1,0 +1,167 @@
+\documentclass[12pt, twoside]{report}
+%--------------- Paquetes -----------------------
+%------- [Para formato general] --------------
+
+
+\usepackage{float}          % Para manejo de objetos en entornos float   
+\usepackage{geometry}       % Para añadir márgenes 
+
+\usepackage{fancyhdr}       % Para encabezados
+\usepackage{pdflscape}      % Permite la rotación de páginas
+\usepackage{rotating}       % Permite el cambio de orientación
+\usepackage{helvet}         % Para letra helvética similar a arial
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[spanish]{babel} % Para comandos en español
+\usepackage{titlesec}       % Para sección de títulos
+
+%------- [Para tablas y figuras] ----------------
+\usepackage{graphicx}       % Para manejo de graficos
+\usepackage{booktabs}       % Para mejorar la calidad de las tablas
+\usepackage{longtable}      % Para tablas extensas
+\usepackage{tabularx}       % Adicional al paquete tabular
+\usepackage{multirow}       % Para combinar filas
+\usepackage{makecell}       % Para formato de celdas
+\usepackage{epstopdf}       % Convierte imagenes EPS a PDF
+\epstopdfsetup{update}      
+\usepackage{pdfpages}       % Para añadir documentos pdf
+
+%------- [Para referencias] -------------------
+\usepackage[backend=biber, style=apa]{biblatex}   % Referencias APA
+\addbibresource{Referencias.bib}
+\usepackage{csquotes}       % Para citaciones avanzadas
+\usepackage{appendix}       % Añade sección de apéndice
+\usepackage{tocloft}        % Para tabla de contenidos
+
+%------- [Para fórmulas] -------------------
+\usepackage{amsmath,amssymb,amsfonts} % Para fórmulas matemáticas
+\usepackage{nomencl}        % Produce lista de nomenclaturas
+\usepackage[version=4,arrows=pgf-filled, textfontname=mathsf]{mhchem}                    % Para fórmulas químicas 
+
+%------- [FORMATEO DE PÁGINA] ------------
+
+\geometry{
+    a4paper, 
+    left=3.5cm,
+    right=2.5cm,
+    bottom=2.5cm,
+    top=2.5cm,
+    headheight=2.5cm
+    }
+
+%------- [FORMATEO DE SUBTÍTULOS Y NUMERACIÓN] ------------
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{font=small}
+\captionsetup{
+    labelsep=newline,
+    labelfont=normalfont,
+    textfont=it,
+    justification=raggedright,
+    singlelinecheck=false
+}
+\DeclareCaptionLabelSeparator{newline}{\\} %para quitar el punto y coma al final de la etiqueta, Por ejemplo: figura 1  
+\captionsetup{labelsep=newline} %Ubica el contenido de la etiqueta en la segunda linea, en lugar de la primera. 
+
+%------ Conservación de la numeración ---------
+\usepackage{chngcntr}               % Mantiene la numeración 
+\counterwithout{figure}{chapter}    % Mantiene la numeración en figuras
+\counterwithout{table}{chapter}     % Mantiene la numeración en tablas
+
+ %------- [FORMATEO DE CAPÍTULOS] ------------
+\titleformat{\chapter}[hang]{\Large\bfseries}{\Roman{chapter}.}{1em}{}
+\titlespacing*{\chapter}
+{0cm}                   % Margen izquierdo 
+{0cm}                   % Espacio antes del título  
+{0.5cm}                 % Espacio después del título 
+
+% Para mantener secciones, figuras, tablas y ecuaciones en números arábigos
+\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
+\renewcommand{\thesubsection}{\arabic{chapter}.\arabic{section}.\arabic{subsection}}
+\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
+\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\thetable}{\arabic{table}}
+
+ %------- [FORMATEO DE ANEXOS (APÉNDICES)] ------------
+
+\newcounter{annex}
+\renewcommand{\theannex}{\Alph{annex}}
+
+% Comando para definir la sección de anexos
+\newcommand{\sectionannex}[1]{%
+    \refstepcounter{annex}
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \clearpage
+    \thispagestyle{empty}
+    \vspace*{\stretch{1}}
+    \begin{center}
+        \begin{minipage}{\textwidth}
+            \centering
+            {\LARGE\bfseries Anexo \theannex\par}
+            \vspace{1.5ex}
+            {\large\itshape #1\par}
+        \end{minipage}
+    \end{center}
+    \vspace*{\stretch{1}}
+    \clearpage
+}
+
+% ------------------- [FORMATEO DE CUERPO DEL DOCUMENTO Y ADICIONALES ] -------------------
+
+\setcounter{secnumdepth}{3}
+\setlength{\parskip}{1\baselineskip}
+\setlength{\parindent}{1cm}
+\makenomenclature
+\renewcommand{\nomname}{List of Abbreviations}
+\renewcommand{\bibname}{References}
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+\addto\captionsspanish{\renewcommand{\listtablename}{Índice de tablas}}
+
+% Encabezados
+\fancyhf{}
+\pagestyle{fancy}
+\fancyfoot[C]{\thepage}
+\fancyhead{}
+\renewcommand{\headrulewidth}{0pt}
+
+ %-----------------------------------------------------------------
+% Quitar el comentario de \includeonly para cargar una seccion en específico
+
+%\includeonly{Chapters/Results and discussion}
+
+\begin{document}
+\include{Preambulo/Portada}
+\pagenumbering{roman} % Para el conteo de las primeras secciones del doc en números romanos. 
+\include{Preambulo/Agradecimientos}
+\include{Preambulo/Dedicatoria}
+\include{Preambulo/Resumen}
+\include{Preambulo/Opinion_Tutor}
+
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\listoftables
+\clearpage
+
+\pagenumbering{arabic} % Para el contenido del documento en números arábigos 
+\include{capítulos/Introducción}
+\include{capítulos/Objetivos}
+\include{capítulos/Marco Teórico}
+\include{capítulos/Metodología}
+\include{capítulos/Resultados y discusión}
+\include{capítulos/Conclusiones}
+\include{capítulos/Recomendaciones}
+
+\newpage
+\printbibliography
+
+\begin{appendices}
+    \include{Anexos/Anexo_A}
+    \include{Anexos/Anexo_B}
+    \include{Anexos/Anexo_C}
+    \include{Anexos/Anexo_D}
+\end{appendices}
+
+\end{document}
